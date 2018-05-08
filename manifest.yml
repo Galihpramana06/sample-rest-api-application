@@ -3,5 +3,5 @@ applications:
 - name: spring-music
   memory: 1G
   random-route: true
-  path: build/libs/sample-spring-app-1.0.jar
-
+  path: build/libs/sample-rest-api-application-1.0.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack

@@ -19,7 +19,7 @@ paths:
       tags:
       - Example
       summary: example
-      operationId: get
+      operationId: create
       parameters:
         - in: body
           name: example

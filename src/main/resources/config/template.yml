@@ -1,0 +1,66 @@
+swagger: '2.0'
+info:
+  title: title
+  description: description
+  version: 2.0.0
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+tags:
+  - name: Example
+    description: Example Description
+
+paths:
+  "/example":
+    post:
+      description: description
+      tags:
+      - Example
+      summary: example
+      operationId: get
+      parameters:
+        - in: body
+          name: example
+          description: example
+          required: true
+          schema:
+            $ref: '#/definitions/Example'
+      responses:
+        '201':
+          description: Successful.
+          schema:
+            "$ref": "#/definitions/Example"
+        '409':
+          description: Invalid request.
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/ErrorResource"
+
+definitions:
+
+  Example:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Resource Identifer
+
+  ErrorResource:
+    type: object
+    description: A representation of a error
+    required:
+    - code
+    - description
+    properties:
+      code:
+        type: string
+        description: The error type
+      subcode:
+        type: string
+        description: The error sub type
+      description:
+        type: string
+        description: Explanation of the error

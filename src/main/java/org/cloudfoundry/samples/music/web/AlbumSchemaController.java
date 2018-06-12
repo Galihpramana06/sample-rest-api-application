@@ -7,15 +7,15 @@ import org.cloudfoundry.samples.music.domain.Album;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping(value = "/schemas")
@@ -34,13 +34,16 @@ public class AlbumSchemaController {
     }
 
     @RequestMapping(value = "/album", method = RequestMethod.GET)
-    public Object getAlbumSchema(UriComponentsBuilder builder) {
+    public ResponseEntity<ObjectNode> getAlbumSchema(UriComponentsBuilder builder) {
         logger.info("Getting album schema");
 
         ObjectNode schemaJsonNode = (ObjectNode)schemaGenerator.generateJsonSchema(Album.class);
         UriComponents uriComponents = builder.path("/schemas/album").build();
         schemaJsonNode.put("id", uriComponents.toUriString());
 
-        return schemaJsonNode;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl("maxage=300");
+        headers.setVary(Arrays.asList(HttpHeaders.ACCEPT_LANGUAGE));
+        return ResponseEntity.ok().headers(headers).body(schemaJsonNode);
     }
 }

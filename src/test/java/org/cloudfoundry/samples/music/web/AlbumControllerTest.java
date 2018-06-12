@@ -42,16 +42,17 @@ public class AlbumControllerTest {
     }
 
     @Test
-    public void shouldGetAlbums() {
+    public void shouldGetAlbums() throws Exception {
         // given:
         Iterable<Album> expectedAlbums = Mockito.mock(Iterable.class);
         Mockito.when(repository.findAll()).thenReturn(expectedAlbums);
 
         // when:
-        Iterable<Album> albums = this.albumController.albums();
+        ResponseEntity<Iterable<Album>> albums = this.albumController.albums(null);
 
         // then:
-        assertSame(expectedAlbums, albums);
+        assertEquals(HttpStatus.OK, albums.getStatusCode());
+        assertSame(expectedAlbums, albums.getBody());
     }
 
     @Test

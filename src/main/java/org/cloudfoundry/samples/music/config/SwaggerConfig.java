@@ -30,15 +30,6 @@ public class SwaggerConfig {
     private Resource swaggerResource;
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    @Bean
     public ServiceModelToSwagger2Mapper mapper() {
         return new  ServiceModelToSwagger2MapperImpl() {
             public Swagger mapDocumentation(Documentation from) {

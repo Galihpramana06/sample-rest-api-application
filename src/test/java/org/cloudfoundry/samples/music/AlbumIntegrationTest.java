@@ -183,7 +183,7 @@ public class AlbumIntegrationTest {
     public void shouldFailToCreateAlbumMissingAttributesInRequestContent() throws Exception {
 
         // given
-        String requestContent = "{\"title\":null,\"artist\":null,\"releaseYear\":null,\"genre\":null,\"trackCount\":0}";
+        String requestContent = "{\"title\":null,\"artist\":null,\"releaseYear\":11111,\"genre\":null,\"trackCount\":0}";
 
         // when
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -194,7 +194,22 @@ public class AlbumIntegrationTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         // then
-        String expected = "[{\"code\":\"missing-information\", \"subcode\":\"artist-required\"},{\"code\":\"missing-information\", \"subcode\":\"title-required\"}]";
+        String expected = "[\n" +
+                "  {\n" +
+                "    \"code\": \"missing-information\",\n" +
+                "    \"subcode\": \"artist-required\",\n" +
+                "    \"description\": \"must not be null\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"code\": \"missing-information\",\n" +
+                "    \"subcode\": \"title-required\",\n" +
+                "    \"description\": \"must not be null\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"code\": \"invalid-release-year\",\n" +
+                "    \"description\": \"size must be between 4 and 4\"\n" +
+                "  }\n" +
+                "]";
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
         assertEquals(expected, result.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }

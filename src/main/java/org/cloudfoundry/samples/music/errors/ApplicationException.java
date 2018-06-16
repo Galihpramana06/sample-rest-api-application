@@ -17,7 +17,6 @@ public class ApplicationException extends RuntimeException {
     }
 
     public ApplicationException(HttpStatus status, List<ApiError> errors) {
-        super("application error");
         this.status = status;
         this.errors = errors;
     }

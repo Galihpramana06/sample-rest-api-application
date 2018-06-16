@@ -2,7 +2,7 @@ package org.cloudfoundry.samples.music.web;
 
 import org.cloudfoundry.samples.music.domain.Album;
 import org.cloudfoundry.samples.music.errors.ApplicationException;
-import org.cloudfoundry.samples.music.validators.AlbumValidator;
+import org.cloudfoundry.samples.music.validators.AlbumCreateRequestValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AlbumControllerTest {
@@ -31,14 +29,14 @@ public class AlbumControllerTest {
     private CrudRepository<Album, String> repository;
 
     @Mock
-    private AlbumValidator validator;
+    private UriComponentsBuilder uriBuilder;
 
     @Mock
-    private UriComponentsBuilder uriBuilder;
+    private AlbumCreateRequestValidator albumCreateRequestValidator;
 
     @Before
     public void setUp() {
-        this.albumController = new AlbumController(this.repository, validator);
+        this.albumController = new AlbumController(this.repository, albumCreateRequestValidator);
     }
 
     @Test

@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,12 +24,19 @@ public class Album {
     private String id;
 
     @JsonProperty(required = true)
+    @NotNull
     private String title;
+
     @JsonProperty(required = true)
+    @NotNull
     private String artist;
+
     @JsonSchemaInject(json = "{\"minLength\": 4, \"maxLength\": 4}")
+    @Size(min = 4, max = 4)
     private String releaseYear;
+
     private String genre;
+
     private Integer trackCount;
 
     public Album() {
